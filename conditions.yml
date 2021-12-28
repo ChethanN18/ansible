@@ -1,0 +1,13 @@
+- hosts: 172.31.17.86
+  become: True
+  tasks:
+   - name: install on linux
+     yum:
+      name: git
+      state: present
+     when: ansible_os_family == "RedHat"
+   - name: install on ubuntu
+     apt:
+      name: git
+      state: present
+     when: ansible_os_family == "Debian"
