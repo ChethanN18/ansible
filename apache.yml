@@ -1,0 +1,39 @@
+- hosts: 172.31.17.86,172.31.29.141
+  become: True
+  tasks:
+    - name: install apache maven
+      yum:
+        name: httpd
+        state: present
+      tags:
+        - install
+    - name: place sample html file
+      copy:
+       src: index.html
+       dest: /var/www/html/
+      tags:
+       - deploy
+    - name: start and enable httpd
+      service:
+       name: httpd
+       state: started
+       enabled: True
+      tags:
+        - start
+    - name: Ensure the default Apache port is 8080
+      ansible.builtin.lineinfile:
+       path: /etc/httpd/conf/httpd.conf
+       regexp: '^Listen '
+       insertafter: '^#Listen '
+       line: Listen 9090
+      notify:
+        - restart apache
+      tags:
+        - restart apache
+      tags:
+        - restart apache
+  handlers:
+    - name: restart apache
+      service:
+        name: httpd
+        state: restarted
