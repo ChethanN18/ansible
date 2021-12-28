@@ -1,0 +1,11 @@
+  hosts: 172.31.17.86
+  become: True
+  tasks:
+   - name: install packages
+     yum:
+       name: "{{ item }}"
+       state: present
+     loop:
+       - git
+       - curl
+       - docker
