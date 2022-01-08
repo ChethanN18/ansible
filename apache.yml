@@ -30,8 +30,6 @@
         - restart apache
       tags:
         - restart apache
-      tags:
-        - restart apache
   handlers:
     - name: restart apache
       service:
